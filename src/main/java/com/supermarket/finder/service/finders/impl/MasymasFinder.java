@@ -2,6 +2,8 @@ package com.supermarket.finder.service.finders.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
@@ -15,12 +17,12 @@ import com.supermarket.finder.service.finders.AbstractFinder;
 import com.supermarket.finder.service.finders.Finder;
 
 @Service
-@Order(OrderFinders.EROSKI)
-public class EroskiFinder extends AbstractFinder implements Finder {
+@Order(OrderFinders.MASYMAS)
+public class MasymasFinder extends AbstractFinder implements Finder {
     /** The logger. */
-    // private final Logger logger = LoggerFactory.getLogger(EroskiFinder.class);
+    // private final Logger logger = LoggerFactory.getLogger(MasymasFinder.class);
 
-    private final String marketUri = "https://supermercado.eroski.es/es/search/results/?q=%s&suggestionsFilter=false";
+    private final String marketUri = "https://www.supermasymasonline.com/listado_PDO.php?buscar=%s";
 
     /**
      * Gets the market uri.
@@ -52,7 +54,7 @@ public class EroskiFinder extends AbstractFinder implements Finder {
                 for (JsonElement productJson : productsJsonList) {
                     JsonObject productObj = (JsonObject) ((JsonObject) productJson);
                     Product product = new Product();
-                    product.setMarket(Market.EROSKI);
+                    product.setMarket(Market.MASYMAS);
                     product.setBrand(productObj.get("brand").getAsString());
                     product.setPrice(productObj.get("price").getAsFloat());
                     product.setName(productObj.get("name").getAsString());
@@ -80,31 +82,60 @@ public class EroskiFinder extends AbstractFinder implements Finder {
      */
     protected String preProcessResponse(String responseString) {
 
-        // String responseStr = responseString;
-        // responseStr = responseStr.replace("\n", "").replace("\r", "");
-        //
-        // Pattern p = Pattern.compile("(((product-title\\\"><a)[^>]*>)([^>]*)<)|((price-product\">)([^<]*)<)");
-        // Matcher m = p.matcher(responseStr);
-        // while (m.find()) {
-        // String tag = m.group(3);
-        // System.out.println(tag);
-        // }
-        //
-        // return "";
-
         String responseStr = responseString;
-        int startJsonPos = responseString.indexOf("impressions");
+        int startJsonPos = responseStr.indexOf("listado_products");
         if (startJsonPos < 0) {
             return "";
         }
-        responseStr = responseString.substring("impressions".length() + 3);
+
         responseStr = responseStr.substring(startJsonPos);
-        int endJsonPos = responseStr.indexOf("]");
-        responseStr = responseStr.substring(0, endJsonPos + 1);
-        responseStr = responseStr.replace("\\", "");
+        int endJsonPos = responseStr.indexOf("filter_secciones_menu_desktop");
+        responseStr = responseStr.substring(0, endJsonPos);
+        // responseStr = responseStr.replace("\n", "").replace("\r", "");
 
-        return "{\"list\":" + responseStr + "}";
+        return responseStr;
 
+    }
+
+    /**
+     * Post process response.
+     *
+     * @param responseStr
+     *            the response str
+     * @return the list
+     */
+    @Override
+    protected List<Product> postProcessResponse(String responseStr) {
+
+        List<Product> productList = new ArrayList<Product>();
+        Pattern p = Pattern.compile("((nombre_.*\">).*(<\\/s))|((item_price\">))([^<]*)<");
+        Matcher m = p.matcher(responseStr);
+
+        while (m.find()) {
+            Product product = new Product();
+
+            String name = m.group(0);
+            int majorSimbol = name.indexOf('>');
+            int minorSimbol = name.indexOf('<');
+
+            name = name.substring(majorSimbol + 1, minorSimbol);
+            product.setName(name);
+
+            m.find();
+
+            String price = m.group(0);
+            majorSimbol = price.indexOf('>');
+            minorSimbol = price.indexOf('<');
+
+            price = price.substring(majorSimbol + 1, minorSimbol);
+            product.setPrice(Float.valueOf(price));
+
+            product.setMarket(Market.MASYMAS);
+
+            productList.add(product);
+        }
+
+        return productList;
     }
 
 }

@@ -3,6 +3,9 @@ package com.supermarket.finder.service.finders.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Service;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -14,8 +17,8 @@ import com.supermarket.finder.service.finders.Finder;
 /**
  * The Class CarrefourFinder.
  */
-// @Service
-// @Order(OrderFinders.CARREFOUR)
+@Service
+@Order(OrderFinders.CARREFOUR)
 public class CarrefourFinder extends AbstractFinder implements Finder {
     /** The logger. */
     // private final Logger logger = LoggerFactory.getLogger(CarrefourFinder.class);

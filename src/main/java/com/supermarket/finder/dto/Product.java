@@ -83,7 +83,7 @@ public class Product implements Comparable<Product> {
      * @return the product price
      */
     public String getProductPrice() {
-        return this.price + " €";
+        return String.format("%.2f €", this.price);
     }
 
     /**

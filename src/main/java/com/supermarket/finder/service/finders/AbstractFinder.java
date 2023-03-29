@@ -46,9 +46,7 @@ public abstract class AbstractFinder implements Finder {
 
             String responseStr = preProcessResponse(response.body());
 
-            final JsonObject responseJsonObj = new Gson().fromJson(responseStr, JsonObject.class);
-
-            productList.addAll(this.getProductList(responseJsonObj));
+            productList = postProcessResponse(responseStr);
         } catch (URISyntaxException | IOException | InterruptedException e) {
             logger.error("Market get Product exception", e);
         }
@@ -66,6 +64,18 @@ public abstract class AbstractFinder implements Finder {
      */
     protected String preProcessResponse(String responseString) {
         return responseString;
+    }
+
+    /**
+     * Post process response.
+     *
+     * @param responseStr
+     *            the response str
+     * @return the list
+     */
+    protected List<Product> postProcessResponse(String responseStr) {
+        final JsonObject responseJsonObj = new Gson().fromJson(responseStr, JsonObject.class);
+        return this.getProductList(responseJsonObj);
     }
 
     /**

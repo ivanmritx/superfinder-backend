@@ -1,6 +1,7 @@
 package com.supermarket.finder.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,9 +40,17 @@ public class FindController {
         for (Finder finder : marketFinderList) {
             productList.addAll(finder.findProductsByTerm(term));
         }
+        List<Product> finalList = new ArrayList<Product>();
+        term = term.trim();
+        String[] termSplit = term.toLowerCase().split(" ");
+        for (Product p : productList) {
+            if (Arrays.stream(termSplit).allMatch(p.getName().toLowerCase()::contains)) {
+                finalList.add(p);
+            }
+        }
 
-        Collections.sort(productList);
+        Collections.sort(finalList);
 
-        return productList;
+        return finalList;
     }
 }

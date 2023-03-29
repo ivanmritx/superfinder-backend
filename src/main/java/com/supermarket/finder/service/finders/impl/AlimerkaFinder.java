@@ -15,6 +15,8 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -29,8 +31,8 @@ import com.supermarket.finder.service.finders.Finder;
 /**
  * The Class AlimerkaFinder.
  */
-// @Service
-// @Order(OrderFinders.ALIMERKA)
+@Service
+@Order(OrderFinders.ALIMERKA)
 public class AlimerkaFinder extends AbstractFinder implements Finder {
     /** The logger. */
     private final Logger logger = LoggerFactory.getLogger(AlimerkaFinder.class);

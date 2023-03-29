@@ -6,4 +6,5 @@ public class OrderFinders {
     static final int DIA = 2;
     static final int ALIMERKA = 4;
     static final int EROSKI = 5;
+    static final int MASYMAS = 6;
 }

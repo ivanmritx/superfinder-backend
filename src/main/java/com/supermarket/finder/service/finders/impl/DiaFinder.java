@@ -3,6 +3,9 @@ package com.supermarket.finder.service.finders.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Service;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -12,8 +15,8 @@ import com.supermarket.finder.dto.Product;
 import com.supermarket.finder.service.finders.AbstractFinder;
 import com.supermarket.finder.service.finders.Finder;
 
-//@Service
-//@Order(OrderFinders.DIA)
+@Service
+@Order(OrderFinders.DIA)
 public class DiaFinder extends AbstractFinder implements Finder {
     /** The logger. */
     // private final Logger logger = LoggerFactory.getLogger(DiaFinder.class);
