@@ -15,7 +15,8 @@ public class ParseHtml {
 
     public static void main(String[] args) throws Exception {
         String term = "cacaolat";
-        String url = "https://supermercado.eroski.es/es/search/results/?q=%s&suggestionsFilter=false";
+        // String url = "https://supermercado.eroski.es/es/search/results/?q=%s&suggestionsFilter=false";
+        String url = "https://www.alcampo.es/compra-online/search/?department=&text=bimbo";
         String uriTerm = URLEncoder.encode(term, StandardCharsets.UTF_8.toString());
 
         final HttpRequest request = HttpRequest.newBuilder().uri(new URI(String.format(url, uriTerm)))
@@ -24,6 +25,7 @@ public class ParseHtml {
         final HttpResponse<String> response = HttpClient.newBuilder().build().send(request, BodyHandlers.ofString());
 
         String responseStr = response.body();
+        System.out.println(response.statusCode()+"BODY: " + responseStr);
 
         Pattern p = Pattern.compile("product-title\"><a.*>(?s)(.*)<\\/a>");
         Matcher m = p.matcher(responseStr);
