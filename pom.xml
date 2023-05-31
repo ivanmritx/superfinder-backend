@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>com.super</groupId>
 	<artifactId>superFinder</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>superFinder</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -27,6 +27,14 @@
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 		</dependency>
+
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.12.0</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

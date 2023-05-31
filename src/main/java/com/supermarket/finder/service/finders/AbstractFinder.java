@@ -1,8 +1,6 @@
 package com.supermarket.finder.service.finders;
 
-import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -47,7 +45,7 @@ public abstract class AbstractFinder implements Finder {
             String responseStr = preProcessResponse(response.body());
 
             productList = postProcessResponse(responseStr);
-        } catch (URISyntaxException | IOException | InterruptedException e) {
+        } catch (Exception e) {
             logger.error("Market get Product exception", e);
         }
 

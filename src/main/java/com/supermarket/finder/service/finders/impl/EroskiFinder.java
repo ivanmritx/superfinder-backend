@@ -3,6 +3,7 @@ package com.supermarket.finder.service.finders.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,8 @@ public class EroskiFinder extends AbstractFinder implements Finder {
     // private final Logger logger = LoggerFactory.getLogger(EroskiFinder.class);
 
     private final String marketUri = "https://supermercado.eroski.es/es/search/results/?q=%s&suggestionsFilter=false";
+    
+    private final String imageHost =  "https://supermercado.eroski.es/images/";
 
     /**
      * Gets the market uri.
@@ -56,6 +59,11 @@ public class EroskiFinder extends AbstractFinder implements Finder {
                     product.setBrand(productObj.get("brand").getAsString());
                     product.setPrice(productObj.get("price").getAsFloat());
                     product.setName(productObj.get("name").getAsString());
+                    
+                    final String id = productObj.get("id")!=null?productObj.get("id").getAsString():StringUtils.EMPTY;
+                    if(!StringUtils.isBlank(id)) {
+                    	product.setImage(StringUtils.join(imageHost,id,"_m.jpg"));	
+                    }
 
                     productList.add(product);
 

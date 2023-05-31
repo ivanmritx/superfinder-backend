@@ -3,6 +3,7 @@ package com.supermarket.finder.service.finders.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +56,8 @@ public class CarrefourFinder extends AbstractFinder implements Finder {
                 product.setBrand(productObj.get("brand") == null ? "-" : productObj.get("brand").getAsString());
                 product.setPrice(productObj.get("active_price").getAsFloat());
                 product.setName(productObj.get("display_name").getAsString());
-
+                product.setImage(productObj.get("image_path")!=null?productObj.get("image_path").getAsString():StringUtils.EMPTY);
+                
                 productList.add(product);
             }
         }

@@ -3,6 +3,7 @@ package com.supermarket.finder.service.finders.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,7 @@ public class HipercorFinder extends AbstractFinder implements Finder {
     // private final Logger logger = LoggerFactory.getLogger(HipercorFinder.class);
 
     private final String marketUri = "https://www.hipercor.es/alimentacion/api/catalog/supermercado/type_ahead/?question=%s&scope=supermarket&center=010MOH&results=10";
-
+    private final String imageHost = "https:";
     /**
      * Gets the market uri.
      *
@@ -34,6 +35,7 @@ public class HipercorFinder extends AbstractFinder implements Finder {
     protected String getMarketUri() {
         return this.marketUri;
     }
+    
 
     /**
      * Gets the product list.
@@ -58,6 +60,12 @@ public class HipercorFinder extends AbstractFinder implements Finder {
                 product.setPrice(
                         ((JsonPrimitive) ((JsonObject) productObj.get("price")).get("seo_price")).getAsFloat());
                 product.setName(productObj.get("name").getAsString());
+                
+                String imagePath = ((JsonPrimitive) ((JsonObject) productObj.get("media")).get("thumbnail_url")).getAsString();
+                if(!StringUtils.isBlank(imagePath)) {
+                	System.out.println(imagePath);
+                	product.setImage(StringUtils.join(imageHost,imagePath));	
+                }
 
                 productList.add(product);
             }

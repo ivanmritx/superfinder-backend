@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
@@ -40,6 +41,8 @@ public class AlimerkaFinder extends AbstractFinder implements Finder {
     private final String marketUri = "https://www.alimerkaonline.es/ali-ws/tienda/busqueda/%s/false/1/1000/0";
 
     private final String tokenUri = "https://www.alimerkaonline.es/ali-ws/acceso/cp/33402";
+    
+    private final String imageHost = "https://storage.googleapis.com/storage.alimerka.es/recursos";
 
     private String iauthtoken = null;
 
@@ -111,6 +114,11 @@ public class AlimerkaFinder extends AbstractFinder implements Finder {
                 product.setBrand("-");
                 product.setPrice(Float.valueOf(productObj.get("pvpnormal").getAsString().replace(",", ".")));
                 product.setName(productObj.get("descripcion").getAsString());
+                
+                final String imagePath = productObj.get("urlimagen")!=null?productObj.get("urlimagen").getAsString():StringUtils.EMPTY;
+                if(!StringUtils.isBlank(imagePath)) {
+                	product.setImage(StringUtils.join(imageHost,imagePath));	
+                }
 
                 productList.add(product);
 

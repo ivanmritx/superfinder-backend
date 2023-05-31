@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,8 @@ public class MasymasFinder extends AbstractFinder implements Finder {
     // private final Logger logger = LoggerFactory.getLogger(MasymasFinder.class);
 
     private final String marketUri = "https://www.supermasymasonline.com/listado_PDO.php?buscar=%s";
+    
+    private final String imageHost ="https://masymas-services.supermasymas.com/fotos/";
 
     /**
      * Gets the market uri.
@@ -118,8 +121,13 @@ public class MasymasFinder extends AbstractFinder implements Finder {
             int majorSimbol = name.indexOf('>');
             int minorSimbol = name.indexOf('<');
 
+            String id = name.substring(name.indexOf('_')+1,majorSimbol-1);
+            
+            product.setImage(StringUtils.join(imageHost,id,".jpg"));
+            
             name = name.substring(majorSimbol + 1, minorSimbol);
             product.setName(name);
+            
 
             m.find();
 

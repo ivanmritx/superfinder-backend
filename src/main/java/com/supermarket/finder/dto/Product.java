@@ -16,6 +16,9 @@ public class Product implements Comparable<Product> {
 
     /** The price. */
     private float price;
+   
+    /** The image. */
+    private String image;
 
     /**
      * @return the market
@@ -76,8 +79,23 @@ public class Product implements Comparable<Product> {
     public void setPrice(float price) {
         this.price = price;
     }
+    
 
     /**
+	 * @return the image
+	 */
+	public String getImage() {
+		return image;
+	}
+
+	/**
+	 * @param image the image to set
+	 */
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	/**
      * Gets the product price.
      *
      * @return the product price

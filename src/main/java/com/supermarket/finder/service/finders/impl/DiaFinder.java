@@ -3,6 +3,7 @@ package com.supermarket.finder.service.finders.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,9 @@ public class DiaFinder extends AbstractFinder implements Finder {
     /** The logger. */
     // private final Logger logger = LoggerFactory.getLogger(DiaFinder.class);
 
-    private final String marketUri = "https://www.dia.es/compra-online/search/autocompleteSecure?term=%s&maxResults=10";
+    private final String marketUri = "https://www.dia.es/api/v1/search-back/search/reduced?q=%s&page=1";
+    private final String imageHost = "https://www.dia.es";
+    
 
     /**
      * Gets the market uri.
@@ -43,7 +46,7 @@ public class DiaFinder extends AbstractFinder implements Finder {
 
         List<Product> productList = new ArrayList<Product>();
 
-        final JsonArray productsJsonList = ((JsonArray) responseJsonObj.get("lightProducts"));
+        final JsonArray productsJsonList = ((JsonArray) responseJsonObj.get("search_items"));
 
         if (productsJsonList != null) {
             for (JsonElement productJson : productsJsonList) {
@@ -51,9 +54,14 @@ public class DiaFinder extends AbstractFinder implements Finder {
                 Product product = new Product();
                 product.setMarket(Market.DIA);
                 product.setBrand("-");
-                product.setPrice(((JsonPrimitive) ((JsonObject) productObj.get("price")).get("value")).getAsFloat());
-                product.setName(productObj.get("name").getAsString());
-
+                product.setPrice(((JsonPrimitive) ((JsonObject) productObj.get("prices")).get("price")).getAsFloat());
+                product.setName(productObj.get("display_name").getAsString());
+                
+                final String imagePath = productObj.get("image").getAsString();
+                if(!StringUtils.isBlank(imagePath)) {
+                	product.setImage(StringUtils.join(imageHost,imagePath));	
+                }
+                
                 productList.add(product);
             }
         }
