@@ -63,7 +63,7 @@ public class HipercorFinder extends AbstractFinder implements Finder {
                 
                 String imagePath = ((JsonPrimitive) ((JsonObject) productObj.get("media")).get("thumbnail_url")).getAsString();
                 if(!StringUtils.isBlank(imagePath)) {
-                	System.out.println(imagePath);
+                	imagePath = imagePath.replace("40x40", "325x325");
                 	product.setImage(StringUtils.join(imageHost,imagePath));	
                 }
 

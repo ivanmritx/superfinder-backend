@@ -62,7 +62,7 @@ public class EroskiFinder extends AbstractFinder implements Finder {
                     
                     final String id = productObj.get("id")!=null?productObj.get("id").getAsString():StringUtils.EMPTY;
                     if(!StringUtils.isBlank(id)) {
-                    	product.setImage(StringUtils.join(imageHost,id,"_m.jpg"));	
+                    	product.setImage(StringUtils.join(imageHost,id,".jpg"));	
                     }
 
                     productList.add(product);

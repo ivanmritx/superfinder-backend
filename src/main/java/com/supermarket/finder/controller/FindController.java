@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,9 +43,10 @@ public class FindController {
         }
         List<Product> finalList = new ArrayList<Product>();
         term = term.trim();
+        term = StringUtils.stripAccents(term);
         String[] termSplit = term.toLowerCase().split(" ");
         for (Product p : productList) {
-            if (Arrays.stream(termSplit).allMatch(p.getName().toLowerCase()::contains)) {
+            if (Arrays.stream(termSplit).allMatch(StringUtils.stripAccents(p.getName().toLowerCase())::contains)) {
                 finalList.add(p);
             }
         }
