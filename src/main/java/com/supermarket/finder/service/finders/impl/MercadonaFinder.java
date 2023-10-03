@@ -26,7 +26,10 @@ public class MercadonaFinder extends AbstractFinder implements Finder {
 
     private final String marketUri = "https://7uzjkl1dj0-dsn.algolia.net/1/indexes/products_prod_4315_es/query?x-algolia-application-id=7UZJKL1DJ0&x-algolia-api-key=9d8f2e39e90df472b4f2e559a116fe17";
 
-    
+	@Override
+	public Market getMarket() {
+		return Market.MERCADONA;
+	}
 
     /**
      * Gets the market uri.

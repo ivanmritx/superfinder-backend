@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.supermarket.finder.dto.Market;
 import com.supermarket.finder.dto.Product;
 import com.supermarket.finder.service.finders.Finder;
 
@@ -34,12 +35,14 @@ public class FindController {
      */
     @CrossOrigin(origins = "*", maxAge = 3600)
     @GetMapping
-    public List<Product> findByTerm(@RequestParam(required = true) String term) {
+    public List<Product> findByTerm(@RequestParam(required = true) String term, Market[] markets) {
 
         final List<Product> productList = new ArrayList<Product>();
 
         for (Finder finder : marketFinderList) {
-            productList.addAll(finder.findProductsByTerm(term));
+        	if(markets == null || Arrays.stream(markets).anyMatch(finder.getMarket()::equals)) {
+        		productList.addAll(finder.findProductsByTerm(term));
+        	}
         }
         List<Product> finalList = new ArrayList<Product>();
         term = term.trim();

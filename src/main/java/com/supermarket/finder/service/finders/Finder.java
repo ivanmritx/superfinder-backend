@@ -2,6 +2,7 @@ package com.supermarket.finder.service.finders;
 
 import java.util.List;
 
+import com.supermarket.finder.dto.Market;
 import com.supermarket.finder.dto.Product;
 
 /**
@@ -17,5 +18,12 @@ public interface Finder {
      * @return the list
      */
     public List<Product> findProductsByTerm(String term);
+    
+    /**
+     * Get the finder market.
+     *
+     * @return the market
+     */
+    public Market getMarket();
 
 }

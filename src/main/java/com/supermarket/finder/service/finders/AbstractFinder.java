@@ -3,8 +3,10 @@ package com.supermarket.finder.service.finders;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
+import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublisher;
+import java.net.http.HttpRequest.Builder;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.StandardCharsets;
@@ -44,8 +46,13 @@ public abstract class AbstractFinder implements Finder {
 				
 				final BodyPublisher body = this.getBodyPost(term);
 				
-				request = HttpRequest.newBuilder().uri(new URI(String.format(this.getMarketUri(), uriTerm)))
-						.timeout(Duration.ofSeconds(10)).POST(body).build();
+				Builder requetsBuilder = HttpRequest.newBuilder().uri(new URI(String.format(this.getMarketUri(), uriTerm)))
+						.timeout(Duration.ofSeconds(10)).POST(body);
+				
+				this.addHeaders(requetsBuilder);
+				
+				request = requetsBuilder.build();
+				
 			}
 
 			final HttpResponse<String> response = HttpClient.newBuilder().build().send(request,
@@ -60,6 +67,15 @@ public abstract class AbstractFinder implements Finder {
 
 		return productList;
 
+	}
+
+	/**
+	 * Add the request headers
+	 * 
+	 * @return
+	 */
+	protected Builder addHeaders(Builder requetsBuilder) {
+		return  requetsBuilder;
 	}
 
 	/**

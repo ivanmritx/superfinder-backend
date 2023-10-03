@@ -27,6 +27,12 @@ public class MasymasFinder extends AbstractFinder implements Finder {
     
     private final String imageHost ="https://masymas-services.supermasymas.com/fotos/";
 
+    
+	@Override
+	public Market getMarket() {
+		return Market.MASYMAS;
+	}
+    
     /**
      * Gets the market uri.
      *

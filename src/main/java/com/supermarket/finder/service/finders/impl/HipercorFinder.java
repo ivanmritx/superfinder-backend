@@ -27,6 +27,14 @@ public class HipercorFinder extends AbstractFinder implements Finder {
 
     private final String marketUri = "https://www.hipercor.es/alimentacion/api/catalog/supermercado/type_ahead/?question=%s&scope=supermarket&center=010MOH&results=10";
     private final String imageHost = "https:";
+    
+    
+    
+	@Override
+	public Market getMarket() {
+		return Market.HIPERCOR;
+	}
+    
     /**
      * Gets the market uri.
      *
