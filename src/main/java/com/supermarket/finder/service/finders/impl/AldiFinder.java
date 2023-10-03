@@ -42,7 +42,7 @@ public class AldiFinder extends AbstractFinder implements Finder {
 	 */
 	protected BodyPublisher getBodyPost(String term) {
 		return HttpRequest.BodyPublishers.ofString(
-				"{\"requests\":[{\"indexName\":\"prod_es_es_es_assortment\",\"params\":\"clickAnalytics=true&facets=%5B%5D&highlightPostTag=%3C%2Fais-highlight-0000000000%3E&highlightPreTag=%3Cais-highlight-0000000000%3E&hitsPerPage=12&page=0&query="+term+"&tagFilters=\"}]}");
+				"{\"requests\":[{\"indexName\":\"prod_es_es_es_offers\",\"params\":\"clickAnalytics=true&facets=%5B%5D&highlightPostTag=%3C%2Fais-highlight-0000000000%3E&highlightPreTag=%3Cais-highlight-0000000000%3E&hitsPerPage=12&page=0&query="+term+"&tagFilters=\"},{\"indexName\":\"prod_es_es_es_assortment\",\"params\":\"clickAnalytics=true&facets=%5B%5D&highlightPostTag=%3C%2Fais-highlight-0000000000%3E&highlightPreTag=%3Cais-highlight-0000000000%3E&hitsPerPage=12&page=0&query="+term+"&tagFilters=\"}]}");
 	}
 
 	/**
@@ -93,5 +93,10 @@ public class AldiFinder extends AbstractFinder implements Finder {
 		}
 
 		return productList;
+	}
+
+	@Override
+	public Market getMarket() {
+		return Market.ALDI;
 	}
 }

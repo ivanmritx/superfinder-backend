@@ -48,6 +48,12 @@ public class AlimerkaFinder extends AbstractFinder implements Finder {
 
     private LocalDateTime lastTokenDate = LocalDateTime.now();
 
+    
+	@Override
+	public Market getMarket() {
+		return Market.ALIMERKA;
+	}
+    
     /**
      * Gets the market uri.
      *
@@ -73,7 +79,7 @@ public class AlimerkaFinder extends AbstractFinder implements Finder {
             try {
 
                 final HttpRequest request = HttpRequest.newBuilder().uri(new URI(this.tokenUri))
-                        .timeout(Duration.ofSeconds(10)).POST(BodyPublishers.ofString("")).build();
+                        .timeout(Duration.ofSeconds(10)).POST(BodyPublishers.noBody()).build();
 
                 final HttpResponse<String> response = HttpClient.newBuilder().build().send(request,
                         BodyHandlers.ofString());

@@ -25,6 +25,10 @@ public class DiaFinder extends AbstractFinder implements Finder {
     private final String marketUri = "https://www.dia.es/api/v1/search-back/search/reduced?q=%s&page=1";
     private final String imageHost = "https://www.dia.es";
     
+	@Override
+	public Market getMarket() {
+		return Market.DIA;
+	}
 
     /**
      * Gets the market uri.

@@ -26,6 +26,12 @@ public class CarrefourFinder extends AbstractFinder implements Finder {
 
     private final String marketUri = "https://www.carrefour.es/search-api/query/v1/search?query=%s&scope=desktop&lang=es&rows=24&start=0&origin=default&f.op=OR";
 
+    
+	@Override
+	public Market getMarket() {
+		return Market.CARREFOUR;
+	}
+    
     /**
      * Gets the market uri.
      *

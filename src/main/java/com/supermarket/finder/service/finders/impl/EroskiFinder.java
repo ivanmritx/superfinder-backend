@@ -25,6 +25,11 @@ public class EroskiFinder extends AbstractFinder implements Finder {
     
     private final String imageHost =  "https://supermercado.eroski.es/images/";
 
+	@Override
+	public Market getMarket() {
+		return Market.EROSKI;
+	}
+    
     /**
      * Gets the market uri.
      *
