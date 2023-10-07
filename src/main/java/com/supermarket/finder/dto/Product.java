@@ -5,19 +5,34 @@ package com.supermarket.finder.dto;
  */
 public class Product implements Comparable<Product> {
 
-    /** The market. */
+    /**
+     * The market.
+     */
     private Market market;
 
-    /** The brand. */
+    /**
+     * The brand.
+     */
     private String brand;
 
-    /** The name. */
+    /**
+     * The name.
+     */
     private String name;
 
-    /** The price. */
+    /**
+     * The price.
+     */
     private float price;
-   
-    /** The image. */
+    
+    /**
+     * The product price per unit.
+     */
+    private String priceUnitOrKg;
+
+    /**
+     * The image.
+     */
     private String image;
 
     /**
@@ -28,8 +43,7 @@ public class Product implements Comparable<Product> {
     }
 
     /**
-     * @param market
-     *            the market to set
+     * @param market the market to set
      */
     public void setMarket(Market market) {
         this.market = market;
@@ -43,8 +57,7 @@ public class Product implements Comparable<Product> {
     }
 
     /**
-     * @param brand
-     *            the brand to set
+     * @param brand the brand to set
      */
     public void setBrand(String brand) {
         this.brand = brand;
@@ -58,8 +71,7 @@ public class Product implements Comparable<Product> {
     }
 
     /**
-     * @param name
-     *            the name to set
+     * @param name the name to set
      */
     public void setName(String name) {
         this.name = name;
@@ -73,29 +85,46 @@ public class Product implements Comparable<Product> {
     }
 
     /**
-     * @param price
-     *            the price to set
+     * @param price the price to set
      */
     public void setPrice(float price) {
         this.price = price;
     }
-    
 
     /**
-	 * @return the image
-	 */
-	public String getImage() {
-		return image;
-	}
+     * Gets the product price per unit.
+     *
+     * @return the product price
+     */
+    public String getPriceUnitOrKg() {
+        return priceUnitOrKg;
+    }
 
-	/**
-	 * @param image the image to set
-	 */
-	public void setImage(String image) {
-		this.image = image;
-	}
+    /**
+     * Sets the product price per unit.
+     *
+     * @param priceUnitOrKg the new product price
+     */
+    public void setPriceUnitOrKg(String priceUnitOrKg) {
+        this.priceUnitOrKg = priceUnitOrKg;
+    }
 
-	/**
+
+    /**
+     * @return the image
+     */
+    public String getImage() {
+        return image;
+    }
+
+    /**
+     * @param image the image to set
+     */
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    /**
      * Gets the product price.
      *
      * @return the product price
@@ -103,6 +132,7 @@ public class Product implements Comparable<Product> {
     public String getProductPrice() {
         return String.format("%.2f €", this.price);
     }
+
 
     /**
      * {@inheritDoc}
