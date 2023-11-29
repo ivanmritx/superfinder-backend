@@ -1,5 +1,8 @@
 package com.supermarket.finder.service.finders.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -11,71 +14,70 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 @Order(OrderFinders.DIA)
 public class DiaFinder extends AbstractFinder implements Finder {
-    /**
-     * The logger.
-     */
-    // private final Logger logger = LoggerFactory.getLogger(DiaFinder.class);
 
-    private final String marketUri = "https://www.dia.es/api/v1/search-back/search/reduced?q=%s&page=1";
-    private final String imageHost = "https://www.dia.es";
+  /**
+   * The logger.
+   */
+  // private final Logger logger = LoggerFactory.getLogger(DiaFinder.class);
 
-    @Override
-    public Market getMarket() {
-        return Market.DIA;
-    }
+  private final String marketUri = "https://www.dia.es/api/v1/search-back/search/reduced?q=%s&page=1";
 
-    /**
-     * Gets the market uri.
-     *
-     * @return the market uri
-     */
-    protected String getMarketUri() {
-        return this.marketUri;
-    }
+  private final String imageHost = "https://www.dia.es";
 
-    /**
-     * Gets the product list.
-     *
-     * @param responseJsonObj the response json obj
-     * @return the product list
-     */
-    protected List<Product> getProductList(JsonObject responseJsonObj) {
+  @Override
+  public Market getMarket() {
+    return Market.DIA;
+  }
 
-        List<Product> productList = new ArrayList<Product>();
+  /**
+   * Gets the market uri.
+   *
+   * @return the market uri
+   */
+  protected String getMarketUri() {
+    return this.marketUri;
+  }
 
-        final JsonArray productsJsonList = ((JsonArray) responseJsonObj.get("search_items"));
+  /**
+   * Gets the product list.
+   *
+   * @param responseJsonObj the response json obj
+   * @return the product list
+   */
+  protected List<Product> getProductList(final JsonObject responseJsonObj) {
 
-        if (productsJsonList != null) {
-            for (JsonElement productJson : productsJsonList) {
-                JsonObject productObj = (JsonObject) productJson;
-                Product product = new Product();
-                product.setMarket(Market.DIA);
-                product.setBrand("-");
-                JsonObject pricesObj = (JsonObject) productObj.get("prices");
-                product.setPrice((pricesObj).get("price").getAsFloat());
+    final List<Product> productList = new ArrayList<Product>();
 
-                if ((pricesObj).get("price_per_unit") != null) {
-                    product.setPriceUnitOrKg(StringUtils.join((pricesObj).get("price_per_unit").getAsString().replace(".", ","), " €/", (pricesObj).get("measure_unit").getAsString()));
-                }
+    final JsonArray productsJsonList = responseJsonObj.get("search_items").getAsJsonArray();
 
+    if (productsJsonList != null) {
+      for (final JsonElement productJson : productsJsonList) {
+        final JsonObject productObj = productJson.getAsJsonObject();
+        final Product product = new Product();
+        product.setMarket(Market.DIA);
+        product.setBrand("-");
+        final JsonObject pricesObj = productObj.get("prices").getAsJsonObject();
+        product.setPrice(pricesObj.get("price").getAsFloat());
 
-                product.setName(productObj.get("display_name").getAsString());
-
-                final String imagePath = productObj.get("image").getAsString();
-                if (!StringUtils.isBlank(imagePath)) {
-                    product.setImage(StringUtils.join(imageHost, imagePath));
-                }
-
-                productList.add(product);
-            }
+        if (pricesObj.get("price_per_unit") != null) {
+          product.setPriceUnitOrKg(StringUtils.join(pricesObj.get("price_per_unit").getAsString().replace(".", ","), " €/",
+              pricesObj.get("measure_unit").getAsString()));
         }
 
-        return productList;
+        product.setName(productObj.get("display_name").getAsString());
+
+        final String imagePath = productObj.get("image").getAsString();
+        if (!StringUtils.isBlank(imagePath)) {
+          product.setImage(StringUtils.join(this.imageHost, imagePath));
+        }
+
+        productList.add(product);
+      }
     }
+
+    return productList;
+  }
 }
